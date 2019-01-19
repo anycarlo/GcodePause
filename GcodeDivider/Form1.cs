@@ -24,12 +24,12 @@ namespace GcodeDivider
         List<int> layers_rows_idx;
         int end_gcode_row = 0;
 
-        List<int> cutLevel;
+        List<int> cutLevel = new List<int>();
         int nLayers = 0;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void countLines()
@@ -45,11 +45,62 @@ namespace GcodeDivider
             }
         }
 
+        
         private void btnInsert_Click(object sender, EventArgs e)
         {
 
-            CutList.Items.Add(new itCut((int)numCut.Value));
+            int n = (int)numCut.Value;
+            {
+                cutLevel.Add(n);
+                cutLevel.Sort();
+                cutLevel = cleanDoubles(cutLevel);
+                CutList.Items.Clear();
+
+                for (int i =0; i< cutLevel.Count; i++)
+                {
+                    CutList.Items.Add(new itCut(cutLevel[i]));
+                }
+            }
+            //reorderList();
+
+
         }
+
+        public List<int> cleanDoubles(List<int> source)
+        {
+            List<int> toret = new List<int>();
+            toret.Add(cutLevel[0]);
+            for (int i = 1; i < cutLevel.Count; i++)
+            {
+                if (cutLevel[i] != cutLevel[i - 1])
+                    toret.Add(cutLevel[i]);
+            }
+            return toret;
+        }
+
+        public void reorderList()
+        {
+            bool ordinata = false;
+            while (!ordinata)
+            {
+                ordinata = true;
+                for (int k = 0; k < CutList.Items.Count-1; k++)
+                {
+                    int prev =( (itCut)CutList.Items[k]).layer;
+                    int next = ((itCut)CutList.Items[k+1]).layer;
+
+                    if (prev > next)
+                    {
+                        ((itCut)CutList.Items[k]).layer = next;
+                        ((itCut)CutList.Items[k+1]).layer = prev;
+                        ordinata = false;
+                        CutList.Refresh();
+                    }
+                }
+            }
+        }
+
+
 
         private void btnRemove_Click(object sender, EventArgs e)
         {

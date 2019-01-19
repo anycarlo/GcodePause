@@ -48,6 +48,8 @@
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.numCut = new System.Windows.Forms.NumericUpDown();
@@ -261,6 +263,8 @@
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.groupBox5.Controls.Add(this.label5);
+            this.groupBox5.Controls.Add(this.label4);
             this.groupBox5.Controls.Add(this.btnRemove);
             this.groupBox5.Controls.Add(this.btnInsert);
             this.groupBox5.Controls.Add(this.numCut);
@@ -274,9 +278,29 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Step 2: Select layers to cut";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(22, 64);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(364, 29);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "otherwise nozzle will hit the print!";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(22, 35);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(337, 29);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "keep intervals in correct order!";
+            // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(51, 466);
+            this.btnRemove.Location = new System.Drawing.Point(56, 495);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(2);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(427, 42);
@@ -287,7 +311,7 @@
             // 
             // btnInsert
             // 
-            this.btnInsert.Location = new System.Drawing.Point(51, 87);
+            this.btnInsert.Location = new System.Drawing.Point(56, 116);
             this.btnInsert.Margin = new System.Windows.Forms.Padding(2);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(264, 42);
@@ -298,7 +322,7 @@
             // 
             // numCut
             // 
-            this.numCut.Location = new System.Drawing.Point(322, 87);
+            this.numCut.Location = new System.Drawing.Point(327, 116);
             this.numCut.Margin = new System.Windows.Forms.Padding(2);
             this.numCut.Name = "numCut";
             this.numCut.Size = new System.Drawing.Size(159, 35);
@@ -308,7 +332,7 @@
             // 
             this.CutList.FormattingEnabled = true;
             this.CutList.ItemHeight = 29;
-            this.CutList.Location = new System.Drawing.Point(51, 138);
+            this.CutList.Location = new System.Drawing.Point(56, 167);
             this.CutList.Margin = new System.Windows.Forms.Padding(2);
             this.CutList.Name = "CutList";
             this.CutList.Size = new System.Drawing.Size(426, 323);
@@ -318,7 +342,7 @@
             // 
             this.groupBox6.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox6.Controls.Add(this.btnGen);
-            this.groupBox6.Location = new System.Drawing.Point(28, 843);
+            this.groupBox6.Location = new System.Drawing.Point(28, 741);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(7);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(7);
@@ -343,7 +367,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1491, 1223);
+            this.ClientSize = new System.Drawing.Size(1595, 1938);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -365,6 +389,7 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCut)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -398,6 +423,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }
 
