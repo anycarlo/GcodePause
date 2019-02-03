@@ -116,23 +116,21 @@ namespace GcodeDivider
             filePath = txtPath.Text;
             findLayersidx();
 
-            ////copy CutList with intervals, adding start and end interrvals
-            //List<itCut> itCutList = new List<itCut>();
-            //itCutList.Add(new itCut(0));
-            //foreach (var i in CutList.Items)
-            //{
-            //    itCutList.Add((itCut)i);
-            //}
-            //itCutList.Add(new itCut(-1));
-
-
-            cutLevel = new List<int>();
-            cutLevel.Add(0); //add range 0-->cut1
-            for (int k=0; k<CutList.Items.Count; k++)
+            //copy CutList with intervals, adding start and end interrvals
+            List<itCut> itCutList = new List<itCut>();
+            itCutList.Add(new itCut(0));
+            foreach (var i in CutList.Items)
             {
-                itCut i = (itCut)CutList.Items[k];
-                cutLevel.Add(i.layer); //add range cut i-1 --> cut i
+                itCutList.Add((itCut)i);
+            }
+            itCutList.Add(new itCut(-1));
 
+
+            //cutLevel = new List<int>();
+            for (int k=0; k< itCutList.Count; k++)
+            {
+                itCut i = itCutList[k];
+                //cutLevel.Add(i.layer); //add range cut i-1 --> cut i
 
                 int stLine = GetLayerRowOf(i.layer);
 
@@ -151,14 +149,13 @@ namespace GcodeDivider
                 i.fanStart = fanSpeed;
 
             }
-            cutLevel.Add(-1); //add range cut -i --> end
         
 
 
 
 
             string prevEndZValue = "0";
-            for (int i = 1; i < cutLevel.Count; i++)
+            for (int i = 1; i < itCutList.Count; i++)
             {   
                 
                 List<String> tmp = new List<string>();
@@ -166,14 +163,14 @@ namespace GcodeDivider
                 tmp.AddRange(appendLines(0, GetLayerRowOf(0)));
 
                 //append lines tfor resuming temp as left by previous layer
-                List<String> prefixGcode = generatePrefixGcode((itCut)CutList.Items[i-1]);
+                List<String> prefixGcode = generatePrefixGcode(itCutList[i-1]);
                 //on line above -1 is necessary becausa cutLevel has a initial and final
                 //item added 
                 tmp.AddRange(prefixGcode);
 
                 //append central gcode of current slice
-                int startLayer = GetLayerRowOf(cutLevel[i - 1]);
-                int endLayer = GetLayerRowOf(cutLevel[i]);
+                int startLayer = GetLayerRowOf(itCutList[i - 1].layer);
+                int endLayer = GetLayerRowOf(itCutList[i].layer);
                 tmp.AddRange(appendLines(startLayer, endLayer));
 
                 //add pause temperature, if necessary
@@ -217,7 +214,7 @@ namespace GcodeDivider
 
                 tmp[startZrow] = String.Join(" ", tmp2);
 
-                if (i < cutLevel.Count - 1)
+                if (i < itCutList.Count - 1)
                     prevEndZValue = findFirst_G1_Z(endLayer);
 
 
@@ -272,6 +269,9 @@ namespace GcodeDivider
         { return findFirstMCmd(command, "#@#@", startLine, endLine); }
         private int findFirstMCmd(String command, String cmdAlternative, int startLine, int endLine)
         {
+            if (startLine == end_gcode_row)
+                startLine = layers_rows_idx[layers_rows_idx.Count - 1];
+
             bool reverse = false;
             int a = 1;
             if (endLine < startLine)

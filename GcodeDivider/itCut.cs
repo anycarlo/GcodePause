@@ -14,12 +14,13 @@ namespace GcodeDivider
         //M190: set bed temp and wait
 
         public int layer = 0;
-        public int nozzleTempStart = 0; //M104 S#
-        public int nozzleTempEnd = 0;   //M104 S#
-        public int bedTempStart = 0;    
-        public int bedTempEnd = 0;      
-        public int fanStart = 0;        //M106 S#
-        public int fanEnd = 0;          //M106 S#
+        public int nozzleTempStart = -1; //M104 S#
+        public int bedTempStart = -1;
+        public int fanStart = -1;        //M106 S#
+
+        //public int nozzleTempEnd = -1;   //not used for now
+        //public int bedTempEnd = -1;      //not used for now
+        //public int fanEnd = -1;          //not used for now
 
         public itCut(int layer)
         {
@@ -28,7 +29,15 @@ namespace GcodeDivider
 
         public override String ToString()
         {
-            String toret = "Between Layer " + (layer) + " and " + (layer+1);
+            String toret = "Between Layer " + (layer) + " and " + (layer + 1);
+
+            if (layer == 0)
+                return "Initial part";
+
+            if (layer == -1)
+                return "Final part";
+
+
             return toret;
         }
     }
