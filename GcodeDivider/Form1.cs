@@ -116,31 +116,69 @@ namespace GcodeDivider
             filePath = txtPath.Text;
             findLayersidx();
 
+            ////copy CutList with intervals, adding start and end interrvals
+            //List<itCut> itCutList = new List<itCut>();
+            //itCutList.Add(new itCut(0));
+            //foreach (var i in CutList.Items)
+            //{
+            //    itCutList.Add((itCut)i);
+            //}
+            //itCutList.Add(new itCut(-1));
+
+
             cutLevel = new List<int>();
             cutLevel.Add(0); //add range 0-->cut1
-            foreach (var i in CutList.Items)
+            for (int k=0; k<CutList.Items.Count; k++)
             {
-                cutLevel.Add(((itCut)i).layer); //add range cut i-1 --> cut i
+                itCut i = (itCut)CutList.Items[k];
+                cutLevel.Add(i.layer); //add range cut i-1 --> cut i
+
+
+                int stLine = GetLayerRowOf(i.layer);
+
+                //find  nozzle start temperarture of this layer
+                //by seraching backwards (previous lines) 
+                //the first point in which temperature was set
+                int nozzleTStart = findFirstMCmd("M104", "M109", stLine, 0);
+                i.nozzleTempStart = nozzleTStart;
+
+                //find bed start temp
+                int bedTStart = findFirstMCmd("M140", "M190", stLine, 0);
+                i.bedTempStart = bedTStart;
+
+                //find fan speed
+                int fanSpeed = findFirstMCmd("M106", "M106", stLine, 0);
+                i.fanStart = fanSpeed;
+
             }
             cutLevel.Add(-1); //add range cut -i --> end
         
-            
 
-            int cc = 0;
 
-            String lastE = "";
+
+
             string prevEndZValue = "0";
             for (int i = 1; i < cutLevel.Count; i++)
-            {
+            {   
                 
                 List<String> tmp = new List<string>();
                 //append common initial gcode (line0 --> "LAYER:0"
                 tmp.AddRange(appendLines(0, GetLayerRowOf(0)));
 
+                //append lines tfor resuming temp as left by previous layer
+                List<String> prefixGcode = generatePrefixGcode((itCut)CutList.Items[i-1]);
+                //on line above -1 is necessary becausa cutLevel has a initial and final
+                //item added 
+                tmp.AddRange(prefixGcode);
+
                 //append central gcode of current slice
                 int startLayer = GetLayerRowOf(cutLevel[i - 1]);
                 int endLayer = GetLayerRowOf(cutLevel[i]);
                 tmp.AddRange(appendLines(startLayer, endLayer));
+
+                //add pause temperature, if necessary
+                List<String> pauseLines = generatePauseTempGcode(nozzlePauseTemp, bedPauseTemp);
+                tmp.AddRange(pauseLines);
 
                 //add custom gcode at the end of this layer
                 tmp.AddRange(getTextBoxLines());
@@ -198,6 +236,66 @@ namespace GcodeDivider
             //add final cut, from last cut point to end of gcode
             String folder = Path.GetDirectoryName(filePath);
             System.Diagnostics.Process.Start(folder);
+        }
+
+        private List<String> generatePrefixGcode(itCut interval)
+        {
+            List<String> toret = new List<string>();
+            toret.Add( ";gcode added to set the correct temperature left from the previous layer");
+            toret.Add( "M109 S" + interval.nozzleTempStart);
+            toret.Add(  "M190 S" + interval.bedTempStart);
+            toret.Add( "M106 S" + interval.fanStart);
+
+            return toret;
+        }
+
+        private List<String> generatePauseTempGcode(int nozzle, int bed)
+        { return generatePauseTempGcode(nozzle, bed, -1); }
+        private List<String> generatePauseTempGcode(int nozzle, int bed, int fan)
+        {
+            List<String> toret = new List<string>();
+
+            toret.Add(";gcode added to set the pause temperature");
+            if(nozzle>0)
+                toret.Add("M109 S" + nozzle);
+            if(bed>0)
+                toret.Add("M190 S" + bed);
+            if (fan > 0)
+                toret.Add("M106 S" + fan);
+
+
+            return toret;
+        }
+
+
+        private int findFirstMCmd(String command, int startLine, int endLine)
+        { return findFirstMCmd(command, "#@#@", startLine, endLine); }
+        private int findFirstMCmd(String command, String cmdAlternative, int startLine, int endLine)
+        {
+            bool reverse = false;
+            int a = 1;
+            if (endLine < startLine)
+            {
+                reverse = true;
+                a = -1;
+            }
+
+            int toret = -1;
+            for (int l = startLine; l != endLine; l+=a)
+            {
+                string s = lines[l];
+                if ((s.StartsWith(command) || s.StartsWith(cmdAlternative)) && s.Contains("S"))
+                {
+                    string[] tmp = s.Split(new char[] { 'S' });
+                    string valueE = tmp[1];
+
+                    float myval = -1;
+                    float.TryParse(valueE, out myval);
+                    toret = (int)myval;
+                    return toret;
+                }
+            } 
+            return toret;
         }
 
         private string findFirst_G1_E(int fromLine)
@@ -337,6 +435,9 @@ namespace GcodeDivider
             int a = 0;
         }
 
+
+        int nozzlePauseTemp = 0;
+        int bedPauseTemp = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (CutList.Items.Count < 1)
@@ -346,7 +447,24 @@ namespace GcodeDivider
 
             if (File.Exists(txtPath.Text))
             {
-                
+
+            }
+
+
+            if (rdKeep.Checked)
+            {
+                nozzlePauseTemp = -1;
+                bedPauseTemp = -1;
+                numNozzleT.Enabled = false;
+                numBedT.Enabled = false;
+            }
+            if (rdSet.Checked)
+            {
+                nozzlePauseTemp = (int)numNozzleT.Value;
+                bedPauseTemp = (int)numBedT.Value;
+
+                numNozzleT.Enabled = true;
+                numBedT.Enabled = true;
             }
         }
 
@@ -437,6 +555,11 @@ namespace GcodeDivider
         }
 
         private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
 
         }

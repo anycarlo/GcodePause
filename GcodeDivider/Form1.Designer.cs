@@ -34,11 +34,10 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numBedT = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numNozzleT = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rbABS = new System.Windows.Forms.RadioButton();
             this.rbREL = new System.Windows.Forms.RadioButton();
@@ -48,18 +47,18 @@
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.numCut = new System.Windows.Forms.NumericUpDown();
             this.CutList = new System.Windows.Forms.ListBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnGen = new System.Windows.Forms.Button();
+            this.rdKeep = new System.Windows.Forms.RadioButton();
+            this.rdSet = new System.Windows.Forms.RadioButton();
             this.groupBox3.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBedT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numNozzleT)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -103,11 +102,12 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.label3);
+            this.groupBox7.Controls.Add(this.rdSet);
+            this.groupBox7.Controls.Add(this.rdKeep);
             this.groupBox7.Controls.Add(this.label2);
-            this.groupBox7.Controls.Add(this.numericUpDown2);
+            this.groupBox7.Controls.Add(this.numBedT);
             this.groupBox7.Controls.Add(this.label1);
-            this.groupBox7.Controls.Add(this.numericUpDown1);
+            this.groupBox7.Controls.Add(this.numNozzleT);
             this.groupBox7.Location = new System.Drawing.Point(121, 467);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(656, 293);
@@ -115,50 +115,61 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "While paused";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(623, 29);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "OPTIONS NOT YET AVAILABLE, WORK IN PROGRESS";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(21, 168);
+            this.label2.Location = new System.Drawing.Point(121, 200);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(266, 29);
             this.label2.TabIndex = 3;
             this.label2.Text = "Bed temp while paused";
             // 
-            // numericUpDown2
+            // numBedT
             // 
-            this.numericUpDown2.Enabled = false;
-            this.numericUpDown2.Location = new System.Drawing.Point(323, 166);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDown2.TabIndex = 2;
+            this.numBedT.Enabled = false;
+            this.numBedT.Location = new System.Drawing.Point(423, 198);
+            this.numBedT.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.numBedT.Name = "numBedT";
+            this.numBedT.Size = new System.Drawing.Size(120, 35);
+            this.numBedT.TabIndex = 2;
+            this.numBedT.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(21, 127);
+            this.label1.Location = new System.Drawing.Point(121, 159);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(296, 29);
             this.label1.TabIndex = 1;
             this.label1.Text = "Nozzle temp while paused";
             // 
-            // numericUpDown1
+            // numNozzleT
             // 
-            this.numericUpDown1.Enabled = false;
-            this.numericUpDown1.Location = new System.Drawing.Point(323, 125);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 35);
-            this.numericUpDown1.TabIndex = 0;
+            this.numNozzleT.Enabled = false;
+            this.numNozzleT.Location = new System.Drawing.Point(423, 157);
+            this.numNozzleT.Maximum = new decimal(new int[] {
+            280,
+            0,
+            0,
+            0});
+            this.numNozzleT.Name = "numNozzleT";
+            this.numNozzleT.Size = new System.Drawing.Size(120, 35);
+            this.numNozzleT.TabIndex = 0;
+            this.numNozzleT.Value = new decimal(new int[] {
+            160,
+            0,
+            0,
+            0});
             // 
             // groupBox2
             // 
@@ -263,8 +274,6 @@
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.groupBox5.Controls.Add(this.label5);
-            this.groupBox5.Controls.Add(this.label4);
             this.groupBox5.Controls.Add(this.btnRemove);
             this.groupBox5.Controls.Add(this.btnInsert);
             this.groupBox5.Controls.Add(this.numCut);
@@ -277,26 +286,6 @@
             this.groupBox5.TabIndex = 16;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Step 2: Select layers to cut";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(22, 64);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(364, 29);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "otherwise nozzle will hit the print!";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.Location = new System.Drawing.Point(22, 35);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(337, 29);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "keep intervals in correct order!";
             // 
             // btnRemove
             // 
@@ -342,11 +331,11 @@
             // 
             this.groupBox6.BackColor = System.Drawing.SystemColors.ControlDark;
             this.groupBox6.Controls.Add(this.btnGen);
-            this.groupBox6.Location = new System.Drawing.Point(28, 741);
+            this.groupBox6.Location = new System.Drawing.Point(28, 757);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(7);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(7);
-            this.groupBox6.Size = new System.Drawing.Size(467, 223);
+            this.groupBox6.Size = new System.Drawing.Size(534, 223);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Step 3: generate Gcode";
@@ -363,11 +352,34 @@
             this.btnGen.UseVisualStyleBackColor = true;
             this.btnGen.Click += new System.EventHandler(this.btnGen_Click);
             // 
+            // rdKeep
+            // 
+            this.rdKeep.AutoSize = true;
+            this.rdKeep.Location = new System.Drawing.Point(40, 61);
+            this.rdKeep.Name = "rdKeep";
+            this.rdKeep.Size = new System.Drawing.Size(394, 33);
+            this.rdKeep.TabIndex = 5;
+            this.rdKeep.TabStop = true;
+            this.rdKeep.Text = "Keep previous layer temperature";
+            this.rdKeep.UseVisualStyleBackColor = true;
+            this.rdKeep.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // rdSet
+            // 
+            this.rdSet.AutoSize = true;
+            this.rdSet.Location = new System.Drawing.Point(40, 100);
+            this.rdSet.Name = "rdSet";
+            this.rdSet.Size = new System.Drawing.Size(273, 33);
+            this.rdSet.TabIndex = 6;
+            this.rdSet.TabStop = true;
+            this.rdSet.Text = "set this temperatures:";
+            this.rdSet.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1595, 1938);
+            this.ClientSize = new System.Drawing.Size(1595, 1364);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -380,8 +392,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBedT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numNozzleT)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -389,7 +401,6 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCut)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -419,12 +430,11 @@
         private System.Windows.Forms.Button btnGen;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numBedT;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numNozzleT;
+        private System.Windows.Forms.RadioButton rdSet;
+        private System.Windows.Forms.RadioButton rdKeep;
     }
 }
 
